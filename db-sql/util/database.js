@@ -4,14 +4,14 @@
 //     host: 'localhost',
 //     user: 'root',
 //     database: 'node-complete',
-//     password: 'geekunit'
+//     password: 'abc123'
 // });
 
 // module.exports = pool.promise();
 
 const Sequelize = require('sequelize');
 
-const sequelize = new Sequelize('node-complete', 'root', 'geekunit', {
+const sequelize = new Sequelize('node-complete', 'root', 'abc123', {
     dialect: 'mysql',
     host: 'localhost'
 });
