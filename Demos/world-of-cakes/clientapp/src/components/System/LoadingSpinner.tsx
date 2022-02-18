@@ -1,3 +1,7 @@
 export default function LoadingSpinner() {
-  return <p>Loading....</p>;
+  return (
+    <div style={{ textAlign: "center" }}>
+      <img src={"/spinner.gif"} width="75" alt="Loading..." />
+    </div>
+  );
 }
