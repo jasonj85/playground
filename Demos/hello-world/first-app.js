@@ -1,3 +1,6 @@
-const fs = require('fs');
+const fs = require("fs");
 
-fs.writeFileSync('hello.txt', 'Hello from Node.JS');
+fs.writeFileSync(
+  "hello.txt",
+  "Hello from Node.JS. Arguments:" + process.argv[2]
+);
