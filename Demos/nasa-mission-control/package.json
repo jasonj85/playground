@@ -1,0 +1,19 @@
+{
+  "name": "nasa-mission-control",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "api": "npm run watch --prefix api",
+    "client": "npm start --prefix client",
+    "watch": "concurrently \"npm run api\" \"npm run client\"",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "deploy": "npm run build --prefix client && npm start --prefix api"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "concurrently": "^7.0.0"
+  }
+}
