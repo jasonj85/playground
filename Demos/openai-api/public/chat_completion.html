@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chat Completion</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      .container {
+        background-color: #1a202c;
+        min-height: 100vh;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container flex flex-col items-center justify-center">
+      <header class="my-8">
+        <img src="logo.jpg" alt="Logo" class="w-32 h-32 mb-2 text-white" />
+        <h1 class="text-white text-2xl font-semibold">Chat Completion</h1>
+      </header>
+      <form id="chatForm" class="mb-4">
+        <input
+          type="text"
+          id="promptInput"
+          class="w-64 py-2 px-3 rounded-lg border outline-none focus:border-blue-500"
+          placeholder="Enter your prompt"
+          required
+        />
+        <button
+          type="submit"
+          id="submitButton"
+          class="ml-2 py-2 px-4 bg-blue-500 text-white rounded-lg cursor-pointer"
+        >
+          Submit
+        </button>
+      </form>
+      <div id="outputDiv" class="text-white text-lg"></div>
+    </div>
+
+    <div
+      id="spinner"
+      class="fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-black bg-opacity-75 hidden"
+    >
+      <div
+        class="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-blue-500"
+      ></div>
+    </div>
+
+    <script>
+      const chatForm = document.getElementById("chatForm");
+      const promptInput = document.getElementById("promptInput");
+      const submitButton = document.getElementById("submitButton");
+      const outputDiv = document.getElementById("outputDiv");
+      const spinner = document.getElementById("spinner");
+
+      chatForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const prompt = promptInput.value;
+
+        // Disable input and submit button during API call
+        promptInput.disabled = true;
+        submitButton.disabled = true;
+
+        // Show spinner
+        spinner.style.display = "block";
+
+        // Make API call
+        try {
+          const response = await fetch(
+            "http://localhost:4000/openai/chatcompletion",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ user_role_content: prompt }),
+            }
+          );
+
+          if (!response.ok) {
+            throw new Error("API request failed");
+          }
+
+          const data = await response.json();
+
+          // Update the outputDiv with the response content
+          outputDiv.textContent = data.content;
+        } catch (error) {
+          console.error(error);
+          outputDiv.textContent = "Error: Unable to fetch data from the API";
+        } finally {
+          // Enable input and submit button
+          promptInput.disabled = false;
+          submitButton.disabled = false;
+
+          // Hide spinner
+          spinner.style.display = "none";
+        }
+      });
+    </script>
+  </body>
+</html>
